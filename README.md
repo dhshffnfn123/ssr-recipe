@@ -1,70 +1,27 @@
-# Getting Started with Create React App
+# 🕋 SSR (서버 사이드 렌더링)
+> 서버 사이드 렌더링은 UI를 서버에서 렌더링하는 것을 의미한다.
+> 서버 사이드 렌더링을 구현하면 사용자가 웹 서비스에 방문했을 때 서버 쪽에서 초기 렌더링을 대신해 준다.
+___
+### 🛠 Install
+> react-router-dom@5
+___
+## 🔹 SSR의 장점
+> + 검색 엔진이 페이지의 내용을 수집해 갈 수 있다.
+> - 서버 사이드 렌더링을 통해 초기 렌더링 성능을 개선할 수 있다.
+> * 대기시간이 최소화되고, 사용자 경험도 향상된다.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🔸 SSR의 단점
+> + 브라우저가 해야 할 일을 서버가 대신 처리하는 것이므로 서버 리소스가 사용된다는 단점이 있다.
+> - 서버에 과부하가 발생할 수 있고, 프로젝트의 구조가 좀 더 복잡해질 수 있다.
+> * 데이터 미리 불러오기, 코드 스플리팅과의 호환 등 고려해야 할 사항이 더 많아져서 개발이 어려워질 수 있다.
 
-## Available Scripts
+## 서버 사이드 렌더링과 코드 스플리팅 충돌
+> 별도의 호환 작업 없이 두 기술을 함께 적용하면, 다음과 같은 흐름으로 작동하면서 페이지에 깜박임이 발생한다.
+1. 서버 사이드 렌더링된 결과물이 브라우저에 나타남
+2. 자바스크립트 파일 로딩
+3. 자바스크립트가 실행되면서 아직 불러오지 않은 컴포넌트를 null로 렌더링함
+4. 페이지에서 코드 스플리팅된 컴포넌트들이 사라짐
+5. 코드 스플리팅된 컴포넌트들이 로딩된 이후 제대로 나타남
+<br>
 
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+> 이러한 이슈를 해결하려면 라우트 경로마다 코드 스플리팅 파일 중에서 <br> 필요한 모든 파일을 브라우저에서 렌더링하기 전에 불러와야 한다.
