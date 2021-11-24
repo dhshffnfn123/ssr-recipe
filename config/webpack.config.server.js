@@ -6,6 +6,10 @@ const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
+const nodeExternals = require('webpack-node-externals');
+const webpack = require('webpack');
+const getClientEnvironment = require('./env');
+
 module.exports = {
     mode: 'production', // 프로덕션 모드로 설정하여 최적화 옵션들을 활성화
     entry: paths.ssrIndexJs, // 엔트리 경로
@@ -140,4 +144,11 @@ module.exports = {
             },
         ],
     },
+    resolve: {
+        modules: ['node_modules']
+    },
+    externals: [nodeExternals({
+        allowlist: [/@babel/],
+    }),
+],
 };
