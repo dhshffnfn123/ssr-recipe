@@ -7,6 +7,23 @@ process.on('unhandledRejection', err => {
 
 require('../config/env');
 const fs = require('fs-extra');
-const weback = require('webpack');
+const webpack = require('webpack');
 const config = require('../config/webpack.config.server');
 const paths = require('../config/paths');
+
+function build() {
+    console.log('Creating server build...');
+    fs.emptyDirSync(paths.ssrBuild);
+    let compiler = webpack(config);
+    return new Promise((resolve, reject) => {
+        compiler.run((err, stats) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            console.log(stats.toString());
+        });
+    });
+}
+
+build();

@@ -3,7 +3,13 @@
 > 서버 사이드 렌더링을 구현하면 사용자가 웹 서비스에 방문했을 때 서버 쪽에서 초기 렌더링을 대신해 준다.
 ___
 ### 🛠 Install
-> react-router-dom@5
+> react-router-dom@5 <br>
+> webpack-node-externals <br>
+> express <br>
+> redux <br>
+> react-redux <br>
+> redux-thunk <br>
+> axios 
 ___
 ## 🔹 SSR의 장점
 > + 검색 엔진이 페이지의 내용을 수집해 갈 수 있다.
@@ -49,3 +55,9 @@ ___
 ## 웹팩 로더 
 > + 웹팩의 로더는 파일을 불러올 때 확장자에 맞게 필요한 처리를 해준다.
 > - __✔ config/webpack.config.server.js__ 참고
+
+## PreloadContext
+> PreloadContext는 서버 사이드 렌더링을 하는 과정에서 처리해야 할 적업들을 실행하고, <br>
+> 만약 기다려야 하는 프로미스가 있다면 프로미스를 수집한다.<br>
+> 프로미스를 수집 후 수집된 프로미스가 끝난 후에 다시 렌더링하면 데이터가 채워진 상태로 컴포넌트가 나타난다.
+

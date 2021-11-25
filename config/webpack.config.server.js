@@ -42,7 +42,7 @@ module.exports = {
                                     },
                                 ],
                             ],
-                            plugin: [
+                            plugins: [
                                 [
                                     require.resolve('babel-plugin-named-asset-import'),
                                     {
