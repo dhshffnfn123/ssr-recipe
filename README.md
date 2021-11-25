@@ -9,7 +9,8 @@ ___
 > redux <br>
 > react-redux <br>
 > redux-thunk <br>
-> axios 
+> axios <br>
+> redux-saga
 ___
 ## 🔹 SSR의 장점
 > + 검색 엔진이 페이지의 내용을 수집해 갈 수 있다.
