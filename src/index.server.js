@@ -11,6 +11,7 @@ import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer, { rootSaga } from "./modules";
 import PreloadContext from "./lib/PreloadContext";
+import { END } from 'redux-saga';
 
 // asset-manifest.json에서 파일 경로들을 조회한다.
 const manifest = JSON.parse(
@@ -61,7 +62,7 @@ const serverRender = async (req, res, next) => {
 
     const store = createStore(rootReducer, applyMiddleware(thunk, sagaMiddleware));
 
-    sagaMiddleware.run(rootSaga);
+    const sagaPromise = sagaMiddleware.run(rootSaga).toPromise();
 
     const preloadContext = {
         done: false,
@@ -78,7 +79,9 @@ const serverRender = async (req, res, next) => {
     );
 
     ReactDOMServer.renderToStaticMarkup(jsx); // renderToStaticMarkup으로 한번 렌더링 한다.
+    store.dispatch(END); // redux-saga의 END 액션을 발생시키면 액션을 모니터링하는 사가들이 모두 종료된다.
     try {
+        await sagaPromise; // 기존에 진행 중이던 사가들이 모두 끝날 때까지 기다린다.
         await Promise.all(preloadContext.promises); // 모든 프로미스를 기다린다.
     } catch (e) {
         return res.status(500);
